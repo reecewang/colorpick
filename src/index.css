@@ -14,3 +14,57 @@ body {
 * {
   box-sizing: border-box;
 }
+
+/* 移动端触摸优化 */
+@media (max-width: 1024px) {
+  /* 移动端触摸区域优化 */
+  button, input[type="range"] {
+    min-height: 44px; /* iOS推荐的最小触摸区域 */
+    min-width: 44px;
+  }
+  
+  /* 移动端拖拽优化 */
+  .drag-handle {
+    touch-action: manipulation;
+  }
+  
+  /* 移动端滚动优化 */
+  .overflow-y-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* 响应式字体大小 */
+@media (max-width: 640px) {
+  .text-lg {
+    font-size: 1rem;
+  }
+  
+  .text-xl {
+    font-size: 1.125rem;
+  }
+}
+
+/* 移动端图片优化 */
+@media (max-width: 1024px) {
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+  /* 触摸设备上的悬停效果 */
+  .hover\:bg-gray-200:hover,
+  .hover\:bg-blue-700:hover,
+  .hover\:bg-green-700:hover,
+  .hover\:bg-black:hover {
+    background-color: inherit;
+  }
+  
+  /* 触摸设备上的按钮状态 */
+  button:active {
+    transform: scale(0.98);
+  }
+}

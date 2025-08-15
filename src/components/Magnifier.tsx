@@ -9,7 +9,13 @@ interface MagnifierProps {
   imageKey?: string; // 图片源标识（用于触发缓存重建）
 }
 
-const Magnifier: React.FC<MagnifierProps> = ({ imageRef, selectedPoint, size = 200, gridSize = 15, imageKey }) => {
+const Magnifier: React.FC<MagnifierProps> = ({ 
+  imageRef, 
+  selectedPoint, 
+  size = 160, // 移动端默认更小
+  gridSize = 15, 
+  imageKey 
+}) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const offscreenRef = useRef<HTMLCanvasElement | null>(null);
   const offscreenCtxRef = useRef<CanvasRenderingContext2D | null>(null);

@@ -72,37 +72,37 @@ const ColorMatchModal: React.FC<ColorMatchModalProps> = ({ isOpen, onClose, matc
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
         {/* 弹窗头部 */}
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">颜色匹配结果</h2>
+        <div className="flex items-center justify-between p-4 lg:p-6 border-b border-gray-200">
+          <h2 className="text-lg lg:text-xl font-semibold text-gray-900">颜色匹配结果</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-gray-400 hover:text-gray-600 transition-colors p-1"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 lg:w-6 lg:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
 
         {/* 弹窗内容 */}
-        <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+        <div className="p-4 lg:p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
           {/* 上部分：最终ID数组 */}
-          <div className="mb-8">
-            <h3 className="text-lg font-medium text-gray-900 mb-3">最终ID数组</h3>
-            <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 relative">
+          <div className="mb-6 lg:mb-8">
+            <h3 className="text-base lg:text-lg font-medium text-gray-900 mb-3">最终ID数组</h3>
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-3 lg:p-4 relative">
               <button
                 onClick={copyIdArray}
                 disabled={copyStatus === 'copying'}
-                className={`absolute top-3 right-3 px-3 py-1 text-sm rounded transition-all duration-200 flex items-center space-x-1 ${getCopyButtonStyle()} ${
+                className={`absolute top-2 right-2 lg:top-3 lg:right-3 px-2 lg:px-3 py-1 text-xs lg:text-sm rounded transition-all duration-200 flex items-center space-x-1 ${getCopyButtonStyle()} ${
                   copyStatus === 'copying' ? 'cursor-not-allowed' : 'cursor-pointer'
                 }`}
               >
                 {getCopyButtonContent()}
               </button>
-              <code className="text-sm font-mono text-gray-800 break-all pr-20">
+              <code className="text-sm lg:text-base text-gray-800 pr-20 break-all">
                 [{matchResult.idArray.join(', ')}]
               </code>
             </div>

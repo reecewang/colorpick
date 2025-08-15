@@ -67,12 +67,12 @@ const Sidebar: React.FC<SidebarProps> = ({
   };
 
   return (
-    <div className="w-80 bg-white border-r border-gray-200 p-6 flex flex-col h-full">
+    <div className="w-full lg:w-80 bg-white border-b lg:border-b-0 lg:border-r border-gray-200 p-4 lg:p-6 flex flex-col h-auto lg:h-full">
       {/* 图片上传区域 */}
-      <div className="mb-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">图像取色器</h2>
+      <div className="mb-4 lg:mb-6">
+        <h2 className="text-lg lg:text-xl font-bold text-gray-900 mb-3 lg:mb-4">图像取色器</h2>
         <div
-          className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
+          className={`border-2 border-dashed rounded-lg p-4 lg:p-6 text-center cursor-pointer transition-colors ${
             imageData
               ? 'border-gray-300 bg-gray-50'
               : 'border-gray-400 bg-gray-50 hover:border-gray-500 hover:bg-gray-100'
@@ -83,17 +83,17 @@ const Sidebar: React.FC<SidebarProps> = ({
         >
           {imageData ? (
             <div className="space-y-2">
-              <svg className="mx-auto h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="mx-auto h-6 w-6 lg:h-8 lg:w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              <p className="text-sm text-gray-600">点击更换图片</p>
+              <p className="text-xs lg:text-sm text-gray-600">点击更换图片</p>
             </div>
           ) : (
             <div className="space-y-2">
-              <svg className="mx-auto h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="mx-auto h-6 w-6 lg:h-8 lg:w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
-              <p className="text-sm text-gray-600">拖拽图片到此处或点击上传</p>
+              <p className="text-xs lg:text-sm text-gray-600">拖拽图片到此处或点击上传</p>
               <p className="text-xs text-gray-500">支持 JPG、PNG、GIF 格式</p>
             </div>
           )}
@@ -110,12 +110,12 @@ const Sidebar: React.FC<SidebarProps> = ({
       {/* 颜色数量控制器 */}
       <div className="mb-4">
         <div className="flex justify-between items-center mb-2">
-          <label className="text-lg font-semibold text-gray-900">颜色数量</label>
+          <label className="text-base lg:text-lg font-semibold text-gray-900">颜色数量</label>
           <div className="flex items-center space-x-2 select-none">
             <button
               onClick={decrease}
               disabled={colorCount <= 0}
-              className="w-7 h-7 flex items-center justify-center rounded bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:bg-gray-100 disabled:text-gray-400"
+              className="w-6 h-6 lg:w-7 lg:h-7 flex items-center justify-center rounded bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:bg-gray-100 disabled:text-gray-400 text-sm lg:text-base"
               aria-label="减少颜色数量"
               title="减少"
             >
@@ -125,7 +125,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             <button
               onClick={increase}
               disabled={colorCount >= 20}
-              className="w-7 h-7 flex items-center justify-center rounded bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:bg-gray-100 disabled:text-gray-400"
+              className="w-6 h-6 lg:w-7 lg:h-7 flex items-center justify-center rounded bg-gray-100 text-gray-700 hover:bg-gray-200 disabled:bg-gray-100 disabled:text-gray-400 text-sm lg:text-base"
               aria-label="增加颜色数量"
               title="增加"
             >
@@ -148,11 +148,11 @@ const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* 随机分布按钮 */}
-      <div className="mb-8">
+      <div className="mb-6 lg:mb-8">
         <button
           onClick={onRandomize}
           disabled={!imageData || colorCount === 0}
-          className="w-full py-2.5 px-4 rounded-lg font-medium bg-gray-900 text-white hover:bg-black disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+          className="w-full py-2 lg:py-2.5 px-3 lg:px-4 rounded-lg font-medium bg-gray-900 text-white hover:bg-black disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors text-sm lg:text-base"
         >
           随机重新分布取样点
         </button>
@@ -165,7 +165,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         <button
           onClick={onMatchColors}
           disabled={!imageData || !hasColorPoints}
-          className="w-full py-3 px-4 rounded-lg font-medium bg-green-600 text-white hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+          className="w-full py-2.5 lg:py-3 px-3 lg:px-4 rounded-lg font-medium bg-green-600 text-white hover:bg-green-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors text-sm lg:text-base"
         >
           匹配色库
         </button>

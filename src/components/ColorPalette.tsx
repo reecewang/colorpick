@@ -89,7 +89,7 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({
   return (
     <div
       ref={scrollRef}
-      className="w-56 max-h-[70vh] overflow-y-auto bg-white rounded-lg shadow-lg p-3 select-none"
+      className="w-full lg:w-56 max-h-[40vh] lg:max-h-[70vh] overflow-y-auto bg-white rounded-lg shadow-lg p-3 select-none"
       onCopy={(e) => e.preventDefault()}
       onCut={(e) => e.preventDefault()}
     >
