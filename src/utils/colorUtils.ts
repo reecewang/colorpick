@@ -57,11 +57,6 @@ export const generateRandomColorPoints = (
   return points;
 };
 
-// 格式化颜色数组为 JavaScript 数组字符串
-export const formatColorArray = (colors: string[]): string => {
-  return JSON.stringify(colors, null, 2);
-};
-
 // === 新增：颜色多样性相关工具 ===
 export const hexToRgb = (hex: string): { r: number; g: number; b: number } => {
   const h = hex.replace('#', '');

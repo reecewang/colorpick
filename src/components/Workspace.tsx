@@ -1,11 +1,11 @@
 import React from 'react';
-import { ColorPoint, ImageData } from '../types';
+import { ColorPoint } from '../types';
 import ColorSamplePoint from './ColorSamplePoint';
 import ColorPalette from './ColorPalette';
 import Magnifier from './Magnifier';
 
 interface WorkspaceProps {
-  imageData: ImageData | null;
+  imageData: string | null;
   colorPoints: ColorPoint[];
   selectedPointId: number | null;
   onUpdateColorPoint: (id: number, x: number, y: number) => void;
@@ -57,8 +57,8 @@ const Workspace: React.FC<WorkspaceProps> = ({
         >
           <img
             ref={imageRef}
-            src={imageData.url}
-            alt={imageData.name}
+            src={imageData}
+            alt="上传的图片"
             className="object-contain rounded-lg shadow-lg max-w-[60vw] max-h-[70vh]"
             draggable={false}
           />
@@ -78,7 +78,7 @@ const Workspace: React.FC<WorkspaceProps> = ({
 
       {/* 中：放大镜固定列（不遮挡图片） */}
       <div className="ml-6 self-start">
-        <Magnifier imageRef={imageRef} selectedPoint={selectedPoint} imageKey={imageData.url} />
+        <Magnifier imageRef={imageRef} selectedPoint={selectedPoint} imageKey={imageData} />
       </div>
 
       {/* 右：垂直调色板固定列 */}

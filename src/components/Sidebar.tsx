@@ -1,15 +1,12 @@
-import React, { useRef } from 'react';
-import { ImageData } from '../types';
+import React from 'react';
 
 interface SidebarProps {
-  imageData: ImageData | null;
-  onImageUpload: (file: File) => void;
+  imageData: string | null;
+  onImageUpload: (data: string) => void;
   colorCount: number;
   onColorCountChange: (count: number) => void;
-  onCopyColors: () => void;
-  isCopied: boolean;
-  onRandomize?: () => void;
-  onMatchColors?: () => void;
+  onRandomize: () => void;
+  onMatchColors: () => void;
   hasColorPoints: boolean;
 }
 
@@ -18,94 +15,89 @@ const Sidebar: React.FC<SidebarProps> = ({
   onImageUpload,
   colorCount,
   onColorCountChange,
-  onCopyColors,
-  isCopied,
   onRandomize,
   onMatchColors,
   hasColorPoints,
 }) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file && file.type.startsWith('image/')) {
-      onImageUpload(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        if (result) {
+          onImageUpload(result);
+        }
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  const handleDrop = (event: React.DragEvent) => {
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
     if (file && file.type.startsWith('image/')) {
-      onImageUpload(file);
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result as string;
+        if (result) {
+          onImageUpload(result);
+        }
+      };
+      reader.readAsDataURL(file);
     }
   };
 
-  const handleDragOver = (event: React.DragEvent) => {
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
   };
 
-  const decrease = () => {
-    onColorCountChange(Math.max(0, colorCount - 1));
+  const increase = () => {
+    if (colorCount < 20) {
+      onColorCountChange(colorCount + 1);
+    }
   };
 
-  const increase = () => {
-    onColorCountChange(Math.min(20, colorCount + 1));
+  const decrease = () => {
+    if (colorCount > 0) {
+      onColorCountChange(colorCount - 1);
+    }
   };
 
   return (
-    <div className="w-80 bg-white border-r border-gray-200 p-6 flex flex-col">
-      {/* 标题区 */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">图像取色器</h1>
-        <p className="text-gray-600 text-sm">
-          拖动图片上的取样点来创建调色板，一键复制结果。
-        </p>
-      </div>
-
-      {/* 图片上传模块 */}
-      <div className="mb-8">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">上传图片</h2>
-        {!imageData ? (
-          <div
-            className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer hover:border-gray-400 transition-colors"
-            onClick={() => fileInputRef.current?.click()}
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-          >
-            <div className="text-gray-500 mb-2">
-              <svg className="mx-auto h-12 w-12" stroke="currentColor" fill="none" viewBox="0 0 48 48">
-                <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+    <div className="w-80 bg-white border-r border-gray-200 p-6 flex flex-col h-full">
+      {/* 图片上传区域 */}
+      <div className="mb-6">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">图像取色器</h2>
+        <div
+          className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
+            imageData
+              ? 'border-gray-300 bg-gray-50'
+              : 'border-gray-400 bg-gray-50 hover:border-gray-500 hover:bg-gray-100'
+          }`}
+          onClick={() => fileInputRef.current?.click()}
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+        >
+          {imageData ? (
+            <div className="space-y-2">
+              <svg className="mx-auto h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
+              <p className="text-sm text-gray-600">点击更换图片</p>
             </div>
-            <p className="text-sm text-gray-600">点击上传图片或拖拽到此处</p>
-            <p className="text-xs text-gray-500 mt-1">支持 JPG、PNG、GIF 格式</p>
-          </div>
-        ) : (
-          <div className="border border-gray-200 rounded-lg p-4">
-            <div className="flex items-center space-x-3 mb-3">
-              <img
-                src={imageData.url}
-                alt={imageData.name}
-                className="w-12 h-12 object-cover rounded"
-              />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 truncate">
-                  {imageData.name}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {(imageData.file.size / 1024 / 1024).toFixed(2)} MB
-                </p>
-              </div>
+          ) : (
+            <div className="space-y-2">
+              <svg className="mx-auto h-8 w-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+              </svg>
+              <p className="text-sm text-gray-600">拖拽图片到此处或点击上传</p>
+              <p className="text-xs text-gray-500">支持 JPG、PNG、GIF 格式</p>
             </div>
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="w-full px-3 py-2 text-sm text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-            >
-              重新上传
-            </button>
-          </div>
-        )}
+          )}
+        </div>
         <input
           ref={fileInputRef}
           type="file"
@@ -169,28 +161,6 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       {/* 导出按钮组 */}
       <div className="mt-auto space-y-3">
-        {/* 复制HEX数组按钮 */}
-        <button
-          onClick={onCopyColors}
-          disabled={!imageData || !hasColorPoints}
-          className={`w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
-            isCopied
-              ? 'bg-green-500 text-white'
-              : 'bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed'
-          }`}
-        >
-          {isCopied ? (
-            <div className="flex items-center justify-center space-x-2">
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              <span>已复制!</span>
-            </div>
-          ) : (
-            '复制HEX数组'
-          )}
-        </button>
-
         {/* 匹配色库按钮 */}
         <button
           onClick={onMatchColors}
